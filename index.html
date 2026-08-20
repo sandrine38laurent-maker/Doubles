@@ -36,15 +36,18 @@
       justify-content: center;
       align-items: center;
     }
+    /* Style adapté pour les balises <img> */
     .symbol {
       position: absolute;
-      font-size: 2.5rem;
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
       cursor: pointer;
       user-select: none;
       transition: transform 0.2s;
     }
     .symbol:hover {
-      transform: scale(1.2);
+      transform: scale(1.2) !important;
     }
     /* Modal de Victoire */
     #win-modal {
@@ -99,9 +102,17 @@
   </div>
 
   <script>
-    // Vous pouvez remplacer les emojis par des URLs d'images (ex: 'logo.png', 'maillot.png')
-    //const SYMBOLS = ['🤾', '🤾‍♀️', '🏆', '🥇', '👟', '🥅', '⏱️', '📢'];
-    const SYMBOLS = ['Fille.png','gars.png','label.png','Cages.png'];
+    // Il faut AU MOINS 7 images différentes pour alimenter le jeu correctement
+    const SYMBOLS = [
+      'Fille.png',
+      'gars.png',
+      'label.png',
+      'Cages.png',
+      'image5.png', // Remplace par tes vrais noms de fichiers
+      'image6.png',
+      'image7.png'
+    ];
+    
     let score = 0;
     const targetScore = 5;
     let timer = 0;
@@ -133,7 +144,7 @@
       let card1Symbols = [commonSymbol, shuffled[1], shuffled[2]].sort(() => 0.5 - Math.random());
       let card2Symbols = [commonSymbol, shuffled[3], shuffled[4]].sort(() => 0.5 - Math.random());
 
-      // Positions prédéfinies sur le disque (en px relatifs)
+      // Positions prédéfinies sur le disque
       const positions = [
         { top: '25%', left: '30%' },
         { top: '60%', left: '20%' },
@@ -142,9 +153,11 @@
 
       function renderCard(cardEl, symbols) {
         symbols.forEach((sym, index) => {
-          const el = document.createElement('div');
+          // Utilisation d'une balise <img> au lieu de <div> + texte
+          const el = document.createElement('img');
           el.className = 'symbol';
-          el.innerText = sym;
+          el.src = sym;
+          el.alt = 'Symbole';
           el.style.top = positions[index].top;
           el.style.left = positions[index].left;
           el.style.transform = `rotate(${getRandomRotation()}deg)`;
